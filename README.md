@@ -22,16 +22,30 @@ First we see how many different types of tags occurred how many times.
 **Find the Code in:** tags_type.py
 
 ```
- 'member'  : 10435
- 'meta'    : 1
- 'nd'      : 300875
- 'node'    : 241026
- 'note'    : 1
- 'osm'     : 1
- 'relation': 603
- 'tag'     : 61147
- 'way'     : 47148
+ member  : 10435
+ meta    : 1
+ nd      : 300875
+ node    : 241026
+ note    : 1
+ osm     : 1
+ relation: 603
+ tag     : 61147
+ way     : 47148
 ```
 
+Then I categorized the tags who are name **tag** in three categories based on their key value.
 
+* **lower:** The keys with lower characters.
+* **lower_colon:** The keys with lower characters and colon **(:)**.
+* **problemchars:** The keys with special characters like **#,$,@** etc.
+* **others:**  the keys with rest of other types of values.
+
+Then I check the occurrences of each type of key in tags. The result is below:
+
+```
+lower        : 59021 
+lower_colon  : 2071
+problemchars : 22
+other        : 33
+```
 
