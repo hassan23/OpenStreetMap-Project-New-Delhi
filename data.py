@@ -30,7 +30,7 @@ WAY_TAGS_PATH = "ways_tags.csv"
 #regular expressions for certain tag values 
 LOWER_COLON = re.compile(r'^([a-z]|_)+:([a-z]|_)+')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
-POSTAL_CODE_RE = re.compile('\d{6}')
+POSTAL_CODE_RE = re.compile('[1-9][0-9]{5}$')
 
 #importing schema
 SCHEMA = schema.schema
