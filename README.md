@@ -49,3 +49,67 @@ problemchars : 22
 other        : 33
 ```
 
+**2. In this step we see the problems we encountered in the osm file**
+
+**Find the Code in:** tags_type.py
+
+There are so many types of location to look up for auditing like **house no, street address, ameneties, shops.** I choose to audit street names as it needed so many corrections.
+
+The first problem I found in many places the city name written in wrong format. So I updated it with the more suitable form.
+
+**these are the two most common examples of that**
+	
+ * `delhi =>  Delhi`
+	
+ * `Delhi. => Delhi`
+
+Another problem is names in hindi which may be difficult to understand for a non hindi speaker. So I updated it with their english meanings.
+
+ * `Bagh =>  Park`
+	
+ * `Marg => Road`
+ 
+ * `Chowk =>  Open Market`
+	
+ * `Bazaar => Market`
+ 
+ * `Nagar => town`
+ 
+ Then there are abbreviations which needed to be updated with the full word.
+ 
+ * `Ln =>  Lane`
+	
+ * `Rd. => Road`
+ 
+Then the words with lower cases and misspellings.
+
+ * `cicus =>  Circle`
+	
+ * `lane => Lane`
+ 
+ * `gate => Gate`
+ 
+ 
+ # Cleaning the OSM file and load Into DB
+ 
+ **Find the Code in:** data.py
+ 
+ In this part I gather the data in a certain structure which is required to write in to a csv and then to DB.
+ 
+ During the data structuring process I categorise the tags(tags/ways) in to three categories we make during auditing. 
+ 
+ * **lower_colon:** The keys with lower characters and colon **(:)**.
+ * **problemchars:** The keys with special characters like **#,$,@** etc.
+ * **others:**  the keys with rest of other types of values.
+ 
+ These categories are defined to give the tags a particular **type** and **key**. The **others** tags get categorised as **'regular'**.
+ The **problemchars** tags will be ignored. The **lower_colon** tags gets the type the value before the colon(:) and key the value        before the colon(:).
+ 
+ e.g. if key attribute in tag has value **add:street** then the type will be **add** and key will be **street**
+ 
+ In the **lower_colon** tags , the values attributed will get updated based on the key it associated with.
+ 
+  * If tags is of type street then we use the **audit.py** function **update_name** to update the street  name.
+  * If tags is of type postcode the we check weather the postal code is a correct postal code or not.If the postcode is correct the it went as it is otherwise it went as 'null'.
+  
+  After Structuring the data We use the csv dictwrite to write into the **csvs** and then to **DB** as per the required schema.
