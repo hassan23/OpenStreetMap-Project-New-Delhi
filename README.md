@@ -248,3 +248,106 @@ POSTCODE| COUNT
 110060  |1
 110064  |1
 ```
+### Listing the names of Metro Stations
+As NewDelhi is one of the most dense cities in India it has a metro railway service, almost a million travel with metro daily. It comes under the department DMRC(Delhi Mertro Rail Corporation).
+
+```sql
+sqlite> SELECT Distinct(nodes_tags.value) StationNames
+FROM nodes_tags 
+    JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='DMRC') i
+    ON nodes_tags.id=i.id
+WHERE nodes_tags.key='name';
+```
+#### Output:
+```sql
+StationNames
+
+Rajouri Garden
+Ramesh Nagar
+Patel Nagar (East)
+Pratap Nagar
+Pul Bangash
+Kashmere Gate
+Rajendra Place
+Karol Bagh
+Jhandewalan
+Kirti Nagar
+Shadipur
+Moti Nagar
+New Delhi Metro Station Gate 1
+Udyog Bhavan
+Patel Chowk
+Ramakrishna Ashram Marg
+Pragati Maidan
+Mandi House
+Indraprastha
+ONGC Shivaji Stadium
+Barakhambha Road
+New Delhi
+Chawri Bazaar
+Yamuna Bank
+Chandni Chowk Metro Station
+Civil Lines
+Tis Hazari
+Shivaji Park
+Paschim Vihar East
+Subhash Nagar
+Shastri Park
+Seelampur
+Shastri Nagar
+Inderlok
+Laxmi Nagar
+Tagore Garden
+Chandni Chowk - Gate 1
+Khan Market
+Rajiv Chowk
+Rajiv Chowk - Gate 6
+New Delhi Metro Station Airport line
+New Delhi Airport Express Terminal
+Central Secretariat
+Punjabi Bagh East
+Satguru Ramsingh Marg
+Ashok Park Main
+Janpath
+Gate 2
+Delhi Cantonment
+Mayapuri
+ESI Hospital
+Punjabi Bagh West
+Welcome
+New Delhi Metro Station Gate 3
+New Delhi Metro Station Gate 2
+New Delhi Metro Station Gate 4
+```
+### Listing The Tourist Attraction
+
+As every body know Delhi us famous for its tourist attractions, we are going to list these.
+```sql
+sqlite> SELECT Distinct(nodes_tags.value) Attraction
+FROM nodes_tags 
+    JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='attraction') i
+    ON nodes_tags.id=i.id
+WHERE nodes_tags.key='name';
+```
+#### Output:
+```sql
+Attractions
+
+11 Murthi
+Teen Murti
+Rashtrapati Bhavan (Presidential Palace)
+Police Memorial
+Jantar Mantar
+Diwan-e-Aam
+Purana Qila
+Jaipur Column
+Khooni Darwaza
+Mutiny Telegraph Memorial
+Jama Masjid
+India Gate
+Mystery Rooms
+MLA office
+Punjabi Bagh Chowk
+Chandni Chowk Market
+Jantar Mantar Entry
+```
