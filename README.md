@@ -147,3 +147,104 @@ sqlite> SELECT COUNT(*) FROM ways;
 ```
 #### Output:
 47148
+
+
+### No of Shops:
+```sql
+sqlite> SELECT COUNT(*) as count 
+FROM (SELECT * FROM nodes_tags 
+	  UNION ALL 
+      SELECT * FROM ways_tags) e 
+      where e.key="shop";
+```
+#### Output:
+99
+
+### Most common type of shops:
+```sql
+sqlite> SELECT e.value as SHOPS,COUNT(*) as num 
+	FROM (SELECT * FROM nodes_tags 
+	  	UNION ALL 
+      	      SELECT * FROM ways_tags) e  
+	WHERE e.key="shop"
+	GROUP BY SHOPS 
+	ORDER BY num DESC 	
+	LIMIT 5;
+```
+#### Output:
+```sql
+SHOPS        | NUM
+bakery       | 16 
+clothes      | 13
+electronics  | 8
+supermarket  | 7
+books        | 5
+```
+
+### Top 3 Amenities:
+```sql
+sqlite> SELECT value, COUNT(*) as num
+FROM nodes_tags
+WHERE key='amenity'
+GROUP BY value
+ORDER BY num DESC
+LIMIT 3;
+```
+#### Output:
+```sql
+Amenities       | Count
+Resturant       |87
+Atm             |40
+Place_of_worship|37
+```
+
+### No of valid postcodes:
+
+```sql
+sqlite> SELECT COUNT(*) as count 
+FROM (SELECT * FROM nodes_tags 
+	  UNION ALL 
+      SELECT * FROM ways_tags) tags
+WHERE tags.key='postcode'
+AND tags.value <> 'null';
+```
+#### Output:
+180
+
+### List Unique postcodes in NewDelhi:
+```sql
+sqlite> SELECT tags.value, COUNT(*) as count 
+FROM (SELECT * FROM nodes_tags 
+	  UNION ALL 
+      SELECT * FROM ways_tags) tags
+WHERE tags.key='postcode'
+AND tags.value <> 'null'
+GROUP BY tags.value
+ORDER BY count DESC;
+```
+#### Output:
+```sql
+POSTCODE| COUNT
+100006  |59
+110001  |22
+110055  |21
+110002  |12
+110006  |10
+110063  |10
+110003  |5
+110005  |5
+110015  |5
+110053  |5
+110054  |4
+110008  |3
+110011  |3
+110092  |3
+110007  |2
+110021  |2
+110026  |2
+110035  |2
+201301  |2
+110010  |1
+110060  |1
+110064  |1
+```
