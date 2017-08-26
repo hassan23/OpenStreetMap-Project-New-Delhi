@@ -321,7 +321,7 @@ New Delhi Metro Station Gate 4
 ```
 ### Listing The Tourist Attraction
 
-As every body know Delhi us famous for its tourist attractions, we are going to list these.
+As every body know Delhi is famous for its tourist attractions, we are going to list these.
 ```sql
 SELECT Distinct(nodes_tags.value) Attraction
 FROM nodes_tags 
@@ -374,7 +374,7 @@ zoroastrian  1
 ```
 
 ### Listing out the tourism hotels with their websites 
-It will be a Inner join as left join list those hotels also which doesn't have a website.
+It will be a inner join as left join list those hotels also which doesn't have a website.
 ```sql
 SELECT hotel.value HOTEL, website.value WEBSITE
 FROM (SELECT * FROM nodes_tags 
@@ -407,3 +407,17 @@ the spot                             www.hotelthespot.in
 ```
 
 # Conclusion
+
+### Achived and Benifits:
+I think the data set(OSM file) has a relsonable amount of data, but with lot of wrong street names like the abriviations, misspellings, language etc. which all I have cleaned. I checked and ignored the tags with problematic charachters. I cheked for the valid post code. Then I did a resonable amount of qeury to get the most of the data I entered into the database.
+I think the data of New delhi is quite competable to the google maps as compared to any other metropolitan city in India which has very small data in OSM as compared to google maps.
+
+### Not achieved and Suggestion for the Improvement
+The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value yellow(mostly) and for rest of the tags the hexadecimal value of color is given like for red line the tag is someting like this.
+```
+<tag k="colour" v="ff0000"/>
+```
+The data could be more helpful if more metro station is given and if the tag for the color is given for each metro station.
+
+One more lagging in the data is that New Delhi is the hub for tourist attraction but there are not many tourist attractions in the given data, only 17 tourist attraction is been found. There should be more tourist attraction in the data.
+
