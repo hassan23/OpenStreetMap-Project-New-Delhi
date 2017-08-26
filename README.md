@@ -128,7 +128,7 @@ ways_nodes.cv ......... 7.346 MB
 
 ### No of unique users
 ```sql
-sqlite> SELECT COUNT(DISTINCT(e.uid))          
+SELECT COUNT(DISTINCT(e.uid))          
 FROM (SELECT uid FROM nodes UNION ALL SELECT uid FROM ways) e;
 ```
 #### Output:
@@ -136,14 +136,14 @@ FROM (SELECT uid FROM nodes UNION ALL SELECT uid FROM ways) e;
 
 ### No of Nodes:
 ```sql
-sqlite> SELECT COUNT(*) FROM nodes;
+SELECT COUNT(*) FROM nodes;
 ```
 #### Output:
 241026
 
 ### No of Ways:
 ```sql
-sqlite> SELECT COUNT(*) FROM ways;
+SELECT COUNT(*) FROM ways;
 ```
 #### Output:
 47148
@@ -151,7 +151,7 @@ sqlite> SELECT COUNT(*) FROM ways;
 
 ### No of Shops:
 ```sql
-sqlite> SELECT COUNT(*) as count 
+SELECT COUNT(*) as count 
 FROM (SELECT * FROM nodes_tags 
 	  UNION ALL 
       SELECT * FROM ways_tags) e 
@@ -162,7 +162,7 @@ FROM (SELECT * FROM nodes_tags
 
 ### Most common type of shops:
 ```sql
-sqlite> SELECT e.value as SHOPS,COUNT(*) as num 
+SELECT e.value as SHOPS,COUNT(*) as num 
 	FROM (SELECT * FROM nodes_tags 
 	  	UNION ALL 
       	      SELECT * FROM ways_tags) e  
@@ -183,7 +183,7 @@ books        | 5
 
 ### Top 3 Amenities:
 ```sql
-sqlite> SELECT value, COUNT(*) as num
+SELECT value, COUNT(*) as num
 FROM nodes_tags
 WHERE key='amenity'
 GROUP BY value
@@ -201,7 +201,7 @@ Place_of_worship|37
 ### No of valid postcodes:
 
 ```sql
-sqlite> SELECT COUNT(*) as count 
+SELECT COUNT(*) as count 
 FROM (SELECT * FROM nodes_tags 
 	  UNION ALL 
       SELECT * FROM ways_tags) tags
@@ -213,7 +213,7 @@ AND tags.value <> 'null';
 
 ### List Unique postcodes in NewDelhi:
 ```sql
-sqlite> SELECT tags.value, COUNT(*) as count 
+SELECT tags.value, COUNT(*) as count 
 FROM (SELECT * FROM nodes_tags 
 	  UNION ALL 
       SELECT * FROM ways_tags) tags
@@ -252,7 +252,7 @@ POSTCODE| COUNT
 As NewDelhi is one of the most dense cities in India it has a metro railway service, almost 2 million people travel with metro daily. It comes under the department DMRC(Delhi Mertro Rail Corporation).
 
 ```sql
-sqlite> SELECT Distinct(nodes_tags.value) StationNames
+SELECT Distinct(nodes_tags.value) StationNames
 FROM nodes_tags 
     JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='DMRC') i
     ON nodes_tags.id=i.id
@@ -323,7 +323,7 @@ New Delhi Metro Station Gate 4
 
 As every body know Delhi us famous for its tourist attractions, we are going to list these.
 ```sql
-sqlite> SELECT Distinct(nodes_tags.value) Attraction
+SELECT Distinct(nodes_tags.value) Attraction
 FROM nodes_tags 
     JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='attraction') i
     ON nodes_tags.id=i.id
@@ -372,3 +372,38 @@ christian    1
 jewish       1
 zoroastrian  1
 ```
+
+### Listing out the tourism hotels with their websites 
+It will be a Inner join as left join list those hotels also which doesn't have a website.
+```sql
+SELECT hotel.value HOTEL, website.value WEBSITE
+FROM (SELECT * FROM nodes_tags 
+    	WHERE id in (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='hotel')
+    	AND key='name') hotel
+	JOIN
+	(SELECT * FROM nodes_tags 
+    	WHERE id in (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='hotel')
+    	AND key='website') website
+	ON 
+	hotel.id = website.id;
+```
+#### Output:
+```
+HOTEL                         WEBSITE
+The Ambassador                http://www.vivantabytaj.com/Ambassador-New-Delhi/Overview.html
+Claridges Hotel               http://www.claridges.com/index.asp
+Hare Krishna Guest House      http://www.hotelharekrishna.com/
+Maidens Hotel                        www.maidenshotel.com
+Ajanta                        http://www.ajantahotel.com
+Hotel Perfect                 http://www.hotelperfect.co.in/
+Hotel Durga International Dx  http://www.hoteldurgainternational.co.in
+Hotel Lal's Haveli            http://hotellalhaveli.com
+Hotel City Star                      www.hotel-citystar.com
+Amax Inn                      http://www.hotelamax.com/
+Bloomrooms                    http://bloomrooms.com/hotels-railwayst.php
+Smyle Inn                     http://www.smyleinn.com
+Shangri-La's Eros Hotel       http://www.shangri-la.com/newdelhi/erosshangrila/
+the spot                             www.hotelthespot.in
+```
+
+# Conclusion
