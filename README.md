@@ -421,3 +421,11 @@ The data could be more helpful if more metro station is given and if the tag for
 
 One more lagging in the data is that New Delhi is the hub for tourist attraction but there are not many tourist attractions in the given data, only 17 tourist attraction is been found. There should be more tourist attraction in the data.
 
+## Resources Used in the Project
+ * Udacity Forums already answered question.
+	
+ * This [link](https://stackoverflow.com/questions/33865525/indian-pincode-validation-regex-only-six-digits-shouldnt-start-with-0) about postcode validation.
+ 
+ * [Sqlite](http://sqlite.org/docs.html) documentation.
+ 
+ * Sample Project ReadMe
