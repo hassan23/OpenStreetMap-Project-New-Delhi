@@ -249,7 +249,7 @@ POSTCODE| COUNT
 110064  |1
 ```
 ### Listing the names of Metro Stations
-As NewDelhi is one of the most dense cities in India it has a metro railway service, almost a million travel with metro daily. It comes under the department DMRC(Delhi Mertro Rail Corporation).
+As NewDelhi is one of the most dense cities in India it has a metro railway service, almost 2 million people travel with metro daily. It comes under the department DMRC(Delhi Mertro Rail Corporation).
 
 ```sql
 sqlite> SELECT Distinct(nodes_tags.value) StationNames
@@ -350,4 +350,25 @@ MLA office
 Punjabi Bagh Chowk
 Chandni Chowk Market
 Jantar Mantar Entry
+```
+### Major Religions
+We can deduce major religions by counting the places of worship in the entire city based on their religion.
+```sql
+SELECT nodes_tags.value RELIGION, COUNT(*) as num
+FROM nodes_tags 
+    JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='place_of_worship') i
+    ON nodes_tags.id=i.id
+WHERE nodes_tags.key='religion'
+GROUP BY nodes_tags.value
+ORDER BY num DESC;
+```
+#### Output:
+```
+RELIGION    num
+hindu        11
+muslim       8
+sikh         3
+christian    1
+jewish       1
+zoroastrian  1
 ```
