@@ -113,3 +113,37 @@ Then the words with lower cases and misspellings.
   * If tags is of type postcode the we check weather the postal code is a correct postal code or not.If the postcode is correct the it went as it is otherwise it went as 'null'.
   
   After Structuring the data We use the csv dictwrite to write into the **csvs** and then to **DB** as per the required schema.
+
+# Data overview of files
+```
+NewDelhi.osm ......... 53.404 MB
+NewDelhi.db .......... 28.490 MB
+nodes.csv ............. 19.966 MB
+nodes_tags.csv ........ 0.185 MB
+ways.csv .............. 2.858 MB
+ways_tags.csv ......... 1.801 MB
+ways_nodes.cv ......... 7.346 MB  
+```  
+# SQL Queries
+
+### No of unique users
+```sql
+sqlite> SELECT COUNT(DISTINCT(e.uid))          
+FROM (SELECT uid FROM nodes UNION ALL SELECT uid FROM ways) e;
+```
+#### Output:
+483
+
+### No of Nodes:
+```sql
+sqlite> SELECT COUNT(*) FROM nodes;
+```
+#### Output:
+241026
+
+### No of Ways:
+```sql
+sqlite> SELECT COUNT(*) FROM ways;
+```
+#### Output:
+47148
