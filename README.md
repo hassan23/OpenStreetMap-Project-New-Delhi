@@ -122,7 +122,7 @@ nodes.csv ............. 19.966 MB
 nodes_tags.csv ........ 0.185 MB
 ways.csv .............. 2.858 MB
 ways_tags.csv ......... 1.801 MB
-ways_nodes.cv ......... 7.346 MB  
+ways_nodes.csv ......... 7.346 MB  
 ```  
 # SQL Queries
 
