@@ -416,14 +416,18 @@ the spot                            www.hotelthespot.in
 I think the data set(OSM file) has a relsonable amount of data, but with lot of wrong street names like the abriviations, misspellings, language etc. which all I have cleaned. I checked and ignored the tags with problematic charachters. I cheked for the valid post code. Then I did a resonable amount of qeury to get the most of the data I entered into the database.
 I think the data of New delhi is quite competable to the google maps as compared to any other metropolitan city in India which has very small data in OSM as compared to google maps.
 
-### Not achieved and Suggestion for the Improvement
+### Problems Encountered
 The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value yellow(mostly) and for rest of the tags the hexadecimal value of color is given like for red line the tag is someting like this.
 ```
 <tag k="colour" v="ff0000"/>
 ```
-The data could be more helpful if more metro station is given and if the tag for the color is given for each metro station.
+#### Solution Sugesstion for the above problem
+We can restrict the user when it is entering a metro station data, it must be with the color value. It would be best if the user write the actual color rather than the hexadecimal value.
+If there are **hexadecimal** value in the color tag, then on the cleaning step we can build a mapper which can map hexadecimal value to one of the eight color of the Delhi Metro.
 
-One more lagging in the data is that New Delhi is the hub for tourist attraction but there are not many tourist attractions in the given data, only 17 tourist attraction is been found. There should be more tourist attraction in the data.
+#### Benifits and Issues from of the solution
+
+
 
 ## Resources Used in the Project
  * Udacity Forums already answered question.
