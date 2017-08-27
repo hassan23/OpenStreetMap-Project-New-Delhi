@@ -89,6 +89,17 @@ Then the words with lower cases and misspellings.
  
  * `gate => Gate`
  
+ **Cheking for the post codes:**
+ 
+ Indian postal code system is easy its just a 6 digit number starts with a non zero digit(eg. 110025 is postal code of my area).
+ When I printed out all the postal codes, there are very few postal codes which are in wrong format.
+ 
+ **example:**
+ 
+ * 1100002: this postal code has 7 digits which is wrong.
+ * 112036v: there is a lowercase letter attached to the postal code.
+ 
+ So we are going to just ignore these few tags in the cleaning phase.
  
  # Cleaning the OSM file and load Into DB
  
@@ -110,7 +121,7 @@ Then the words with lower cases and misspellings.
  In the **lower_colon** tags , the values attributed will get updated based on the key it associated with.
  
   * If tags is of type street then we use the **audit.py** function **update_name** to update the street  name.
-  * If tags is of type postcode the we check weather the postal code is a correct postal code or not.If the postcode is correct the it went as it is otherwise it went as 'null'.
+  * If tags is of type postcode the we check weather the postal code is a correct postal code or not. Only if the postal code is valid it went to the next step other wise we ignore it.
   
   After Structuring the data We use the csv dictwrite to write into the **csvs** and then to **DB** as per the required schema.
 
@@ -205,8 +216,7 @@ SELECT COUNT(*) as count
 FROM (SELECT * FROM nodes_tags 
 	  UNION ALL 
       SELECT * FROM ways_tags) tags
-WHERE tags.key='postcode'
-AND tags.value <> 'null';
+WHERE tags.key='postcode';
 ```
 #### Output:
 180
@@ -218,7 +228,6 @@ FROM (SELECT * FROM nodes_tags
 	  UNION ALL 
       SELECT * FROM ways_tags) tags
 WHERE tags.key='postcode'
-AND tags.value <> 'null'
 GROUP BY tags.value
 ORDER BY count DESC;
 ```
