@@ -417,16 +417,25 @@ I think the data set(OSM file) has a relsonable amount of data, but with lot of 
 I think the data of New delhi is quite competable to the google maps as compared to any other metropolitan city in India which has very small data in OSM as compared to google maps.
 
 ### Problems Encountered
-The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value yellow(mostly) and for rest of the tags the hexadecimal value of color is given like for red line the tag is someting like this.
+The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. 
+![Alt text](metro.png "Optional title")
+What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) metro stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value **yellow(mostly)** and for rest of the tags the **hexadecimal** value of color is given like for red line metro station the tag is someting like this.
 ```
 <tag k="colour" v="ff0000"/>
 ```
-#### Solution Sugesstion for the above problem
+### Solution Sugesstion for the above problem
 We can restrict the user when it is entering a metro station data, it must be with the color value. It would be best if the user write the actual color rather than the hexadecimal value.
+
 If there are **hexadecimal** value in the color tag, then on the cleaning step we can build a mapper which can map hexadecimal value to one of the eight color of the Delhi Metro.
 
-#### Benifits and Issues from of the solution
+### Benifits and Issues from of the solution
+#### Benifits
+* We will be able to tell which metro station belong to which color.
+* A color given for a metro station can help us answer many question which color line has the maximum station and vice versa, which color metro is near to which part of delhi etc.
 
+#### Issues
+* Restricting the user to fill up extra fields like color may annoy user or user may end up not entering the data at all.
+* If there are a hundreds of different hexadecimal value entered by the users, it would be difficult to build a mapper which can map each hexadecimal value to one of the eight color or it will be really time consuming.
 
 
 ## Resources Used in the Project
