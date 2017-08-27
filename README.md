@@ -417,7 +417,7 @@ I think the data set(OSM file) has a relsonable amount of data, but with lot of 
 I think the data of New delhi is quite competable to the google maps as compared to any other metropolitan city in India which has very small data in OSM as compared to google maps.
 
 ### Problems Encountered
-The [New Delhi metro](https://www.google.co.in/search?q=metro+map+image&tbm=isch&imgil=EK1hd2aPbFR6AM%253A%253BVES1aTvTFc7OMM%253Bhttp%25253A%25252F%25252Fwww.delhimetrotimes.in%25252Froute-map.html&source=iu&pf=m&fir=EK1hd2aPbFR6AM%253A%252CVES1aTvTFc7OMM%252C_&usg=__bLt2pEmlBVPfH39Wr1sjPhllLow%3D&biw=1366&bih=662&ved=0ahUKEwiT-PCbg_fVAhUiSY8KHUV4DEQQyjcIQA&ei=rIaiWZPyOKKSvQTF8LGgBA#imgrc=EK1hd2aPbFR6AM:) is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. 
+The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. 
 
 What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) metro stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value **yellow(mostly)** and for rest of the tags the **hexadecimal** value of color is given like for red line metro station the tag is someting like this.
 ```
