@@ -209,7 +209,7 @@ Atm             |40
 Place_of_worship|37
 ```
 
-### No of valid postcodes:
+### No of postcodes:
 
 ```sql
 SELECT COUNT(*) as count 
@@ -221,7 +221,7 @@ WHERE tags.key='postcode';
 #### Output:
 180
 
-### List Unique postcodes in NewDelhi:
+### List Unique postcodes:
 ```sql
 SELECT tags.value, COUNT(*) as count 
 FROM (SELECT * FROM nodes_tags 
