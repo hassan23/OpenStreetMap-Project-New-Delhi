@@ -29,7 +29,6 @@ WAY_TAGS_PATH = "ways_tags.csv"
 #regular expressions for certain tag values 
 LOWER_COLON = re.compile(r'^([a-z]|_)+:([a-z]|_)+')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
-POSTAL_CODE_RE = re.compile('[1-9][0-9]{5}$')
 
 #importing schema
 SCHEMA = schema.schema
@@ -137,11 +136,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
 # ================================================== #
 #               Helper Functions                     #
 # ================================================== #
-def check_postal_code(post_code):
-    if POSTAL_CODE_RE.match(post_code):
-        return post_code
-    else:
-        return 'null'
 
 def get_element(osm_file, tags=('node', 'way', 'relation')):
     """Yield element if it is the right type of tag"""
