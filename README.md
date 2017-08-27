@@ -418,7 +418,7 @@ I think the data of New delhi is quite competable to the google maps as compared
 
 ### Problems Encountered
 The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. 
-![Alt text](metro.png "Optional title")
+
 What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) metro stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value **yellow(mostly)** and for rest of the tags the **hexadecimal** value of color is given like for red line metro station the tag is someting like this.
 ```
 <tag k="colour" v="ff0000"/>
