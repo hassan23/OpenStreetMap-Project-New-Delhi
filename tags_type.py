@@ -19,7 +19,7 @@ OSM_PATH = "NewDelhi.osm"
 #defining regular expressions
 lower = re.compile(r'^([a-z]|_)*$')
 lower_colon = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
-problemchars = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
+problemchars = re.compile(r'[=\+/&<>;\'"\?%#$@\,\.\- \t\r\n]')
 
 #fuction to determine the types of tags with there frequency of occurence
 def count_tags(filename):
@@ -41,8 +41,10 @@ def key_type(element, keys):
             elif lower_colon.search(element.attrib['k']):
                 keys['lower_colon'] = keys['lower_colon'] + 1
             elif problemchars.search(element.attrib['k']):
+                print element.attrib['k']
                 keys['problemchars'] = keys['problemchars'] + 1
             else:
+                print element.attrib['k']
                 keys['other'] = keys['other'] + 1
     
     return keys

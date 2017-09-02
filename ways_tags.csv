@@ -8565,7 +8565,7 @@ id,key,value,type
 192086165,source,Bing,regular
 192702489,housename,School of Planning and Architecture,addr
 192702489,housenumber,"4, Block B, IP Estate",addr
-192702489,postcode,1100002,addr
+192702489,postcode,null,addr
 192702489,street,Indraprastha Road,addr
 192702489,building,yes,regular
 192702489,designation,University,regular
@@ -11935,7 +11935,7 @@ id,key,value,type
 313088987,oneway,yes,regular
 313527500,city,Delhi,addr
 313527500,housenumber,"J/03, 68C",addr
-313527500,postcode,110031v,addr
+313527500,postcode,null,addr
 313527500,street,"Anarwali Masjid, Block J, New Delhi",addr
 313527500,building,yes,regular
 313527500,name,OMEX PHOTOGRAPHY,regular

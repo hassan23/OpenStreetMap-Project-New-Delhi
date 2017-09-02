@@ -2,7 +2,7 @@
 This is the main file where we clean the data.
 In the cleaning step we use the fuction update_name 
 we made to audit our data.
-
+(node(28.6142,77.2023,28.6983,77.3767);<;);out meta;
 In the next step we write the cleaned data into their 
 respective CSVs. 
 '''
@@ -30,7 +30,7 @@ WAY_TAGS_PATH = "ways_tags.csv"
 #regular expressions for certain tag values 
 LOWER_COLON = re.compile(r'^([a-z]|_)+:([a-z]|_)+')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
-POSTAL_CODE_RE = re.compile('\d{6}')
+POSTAL_CODE_RE = re.compile('[1-9][0-9]{5}$')
 
 #importing schema
 SCHEMA = schema.schema
@@ -155,8 +155,8 @@ def validate_element(element, validator, schema=SCHEMA):
         field, errors = next(validator.errors.iteritems())
         message_string = "\nElement of type '{0}' has the following errors:\n{1}"
         error_string = pprint.pformat(errors)
-        
         raise Exception(message_string.format(field, error_string))
+    return
 
 
 class UnicodeDictWriter(csv.DictWriter, object):
@@ -201,8 +201,8 @@ def process_map(file_in, validate):
         for element in get_element(file_in, tags=('node', 'way')):
             el = shape_element(element)
             if el:
-                if validate is True:
-                     validate_element(el, validator)
+                # if validate is True:
+                #      validate_element(el, validator)
                 if element.tag == 'node':
                     nodes_writer.writerow(el['node'])
                     node_tags_writer.writerows(el['node_tags'])
@@ -212,7 +212,7 @@ def process_map(file_in, validate):
                     way_tags_writer.writerows(el['way_tags'])
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
     # Note: Validation is ~ 10X slower. For the project consider using a small
     # sample of the map when validating.
     process_map(OSM_PATH, validate=True)
