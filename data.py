@@ -2,7 +2,6 @@
 This is the main file where we clean the data.
 In the cleaning step we use the fuction update_name 
 we made to audit our data.
-(node(28.6142,77.2023,28.6983,77.3767);<;);out meta;
 In the next step we write the cleaned data into their 
 respective CSVs. 
 '''
