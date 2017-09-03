@@ -113,3 +113,311 @@ Then the words with lower cases and misspellings.
   * If tags is of type postcode the we check weather the postal code is a correct postal code or not.If the postcode is correct the it went as it is otherwise it went as 'null'.
   
   After Structuring the data We use the csv dictwrite to write into the **csvs** and then to **DB** as per the required schema.
+
+# Data overview of files
+```
+NewDelhi.osm ......... 53.404 MB
+NewDelhi.db .......... 28.490 MB
+nodes.csv ............. 19.966 MB
+nodes_tags.csv ........ 0.185 MB
+ways.csv .............. 2.858 MB
+ways_tags.csv ......... 1.801 MB
+ways_nodes.csv ......... 7.346 MB  
+```  
+# SQL Queries
+
+### No of unique users
+```sql
+SELECT COUNT(DISTINCT(e.uid))          
+FROM (SELECT uid FROM nodes UNION ALL SELECT uid FROM ways) e;
+```
+#### Output:
+483
+
+### No of Nodes:
+```sql
+SELECT COUNT(*) FROM nodes;
+```
+#### Output:
+241026
+
+### No of Ways:
+```sql
+SELECT COUNT(*) FROM ways;
+```
+#### Output:
+47148
+
+
+### No of Shops:
+```sql
+SELECT COUNT(*) as count 
+FROM (SELECT * FROM nodes_tags 
+	  UNION ALL 
+      SELECT * FROM ways_tags) e 
+      where e.key="shop";
+```
+#### Output:
+99
+
+### Most common type of shops:
+```sql
+SELECT e.value as SHOPS,COUNT(*) as num 
+	FROM (SELECT * FROM nodes_tags 
+	  	UNION ALL 
+      	      SELECT * FROM ways_tags) e  
+	WHERE e.key="shop"
+	GROUP BY SHOPS 
+	ORDER BY num DESC 	
+	LIMIT 5;
+```
+#### Output:
+```sql
+SHOPS        | NUM
+bakery       | 16 
+clothes      | 13
+electronics  | 8
+supermarket  | 7
+books        | 5
+```
+
+### Top 3 Amenities:
+```sql
+SELECT value, COUNT(*) as num
+FROM nodes_tags
+WHERE key='amenity'
+GROUP BY value
+ORDER BY num DESC
+LIMIT 3;
+```
+#### Output:
+```sql
+Amenities       | Count
+Resturant       |87
+Atm             |40
+Place_of_worship|37
+```
+
+### No of valid postcodes:
+
+```sql
+SELECT COUNT(*) as count 
+FROM (SELECT * FROM nodes_tags 
+	  UNION ALL 
+      SELECT * FROM ways_tags) tags
+WHERE tags.key='postcode'
+AND tags.value <> 'null';
+```
+#### Output:
+180
+
+### List Unique postcodes in NewDelhi:
+```sql
+SELECT tags.value, COUNT(*) as count 
+FROM (SELECT * FROM nodes_tags 
+	  UNION ALL 
+      SELECT * FROM ways_tags) tags
+WHERE tags.key='postcode'
+AND tags.value <> 'null'
+GROUP BY tags.value
+ORDER BY count DESC;
+```
+#### Output:
+```sql
+POSTCODE| COUNT
+100006  |59
+110001  |22
+110055  |21
+110002  |12
+110006  |10
+110063  |10
+110003  |5
+110005  |5
+110015  |5
+110053  |5
+110054  |4
+110008  |3
+110011  |3
+110092  |3
+110007  |2
+110021  |2
+110026  |2
+110035  |2
+201301  |2
+110010  |1
+110060  |1
+110064  |1
+```
+### Listing the names of Metro Stations
+As NewDelhi is one of the most dense cities in India it has a metro railway service, almost 2 million people travel with metro daily. It comes under the department DMRC(Delhi Mertro Rail Corporation).
+
+```sql
+SELECT Distinct(nodes_tags.value) StationNames
+FROM nodes_tags 
+    JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='DMRC') i
+    ON nodes_tags.id=i.id
+WHERE nodes_tags.key='name';
+```
+#### Output:
+```sql
+StationNames
+
+Rajouri Garden
+Ramesh Nagar
+Patel Nagar (East)
+Pratap Nagar
+Pul Bangash
+Kashmere Gate
+Rajendra Place
+Karol Bagh
+Jhandewalan
+Kirti Nagar
+Shadipur
+Moti Nagar
+New Delhi Metro Station Gate 1
+Udyog Bhavan
+Patel Chowk
+Ramakrishna Ashram Marg
+Pragati Maidan
+Mandi House
+Indraprastha
+ONGC Shivaji Stadium
+Barakhambha Road
+New Delhi
+Chawri Bazaar
+Yamuna Bank
+Chandni Chowk Metro Station
+Civil Lines
+Tis Hazari
+Shivaji Park
+Paschim Vihar East
+Subhash Nagar
+Shastri Park
+Seelampur
+Shastri Nagar
+Inderlok
+Laxmi Nagar
+Tagore Garden
+Chandni Chowk - Gate 1
+Khan Market
+Rajiv Chowk
+Rajiv Chowk - Gate 6
+New Delhi Metro Station Airport line
+New Delhi Airport Express Terminal
+Central Secretariat
+Punjabi Bagh East
+Satguru Ramsingh Marg
+Ashok Park Main
+Janpath
+Gate 2
+Delhi Cantonment
+Mayapuri
+ESI Hospital
+Punjabi Bagh West
+Welcome
+New Delhi Metro Station Gate 3
+New Delhi Metro Station Gate 2
+New Delhi Metro Station Gate 4
+```
+### Listing The Tourist Attraction
+
+As every body know Delhi is famous for its tourist attractions, we are going to list these.
+```sql
+SELECT Distinct(nodes_tags.value) Attraction
+FROM nodes_tags 
+    JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='attraction') i
+    ON nodes_tags.id=i.id
+WHERE nodes_tags.key='name';
+```
+#### Output:
+```sql
+Attractions
+
+11 Murthi
+Teen Murti
+Rashtrapati Bhavan (Presidential Palace)
+Police Memorial
+Jantar Mantar
+Diwan-e-Aam
+Purana Qila
+Jaipur Column
+Khooni Darwaza
+Mutiny Telegraph Memorial
+Jama Masjid
+India Gate
+Mystery Rooms
+MLA office
+Punjabi Bagh Chowk
+Chandni Chowk Market
+Jantar Mantar Entry
+```
+### Major Religions
+We can deduce major religions by counting the places of worship in the entire city based on their religion.
+```sql
+SELECT nodes_tags.value RELIGION, COUNT(*) as num
+FROM nodes_tags 
+    JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='place_of_worship') i
+    ON nodes_tags.id=i.id
+WHERE nodes_tags.key='religion'
+GROUP BY nodes_tags.value
+ORDER BY num DESC;
+```
+#### Output:
+```
+RELIGION    num
+hindu        11
+muslim       8
+sikh         3
+christian    1
+jewish       1
+zoroastrian  1
+```
+
+### Listing out the tourism hotels with their websites 
+It will be a inner join as left join list those hotels also which doesn't have a website.
+```sql
+SELECT hotel.value HOTEL, website.value WEBSITE
+FROM (SELECT * FROM nodes_tags 
+    	WHERE id in (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='hotel')
+    	AND key='name') hotel
+	JOIN
+	(SELECT * FROM nodes_tags 
+    	WHERE id in (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='hotel')
+    	AND key='website') website
+	ON 
+	hotel.id = website.id;
+```
+#### Output:
+```
+HOTEL                         WEBSITE
+The Ambassador                http://www.vivantabytaj.com/Ambassador-New-Delhi/Overview.html
+Claridges Hotel               http://www.claridges.com/index.asp
+Hare Krishna Guest House      http://www.hotelharekrishna.com/
+Maidens Hotel                        www.maidenshotel.com
+Ajanta                        http://www.ajantahotel.com
+Hotel Perfect                 http://www.hotelperfect.co.in/
+Hotel Durga International Dx  http://www.hoteldurgainternational.co.in
+Hotel Lal's Haveli            http://hotellalhaveli.com
+Hotel City Star                      www.hotel-citystar.com
+Amax Inn                      http://www.hotelamax.com/
+Bloomrooms                    http://bloomrooms.com/hotels-railwayst.php
+Smyle Inn                     http://www.smyleinn.com
+Shangri-La's Eros Hotel       http://www.shangri-la.com/newdelhi/erosshangrila/
+the spot                             www.hotelthespot.in
+```
+
+# Conclusion
+
+### Achived and Benifits:
+I think the data set(OSM file) has a relsonable amount of data, but with lot of wrong street names like the abriviations, misspellings, language etc. which all I have cleaned. I checked and ignored the tags with problematic charachters. I cheked for the valid post code. Then I did a resonable amount of qeury to get the most of the data I entered into the database.
+I think the data of New delhi is quite competable to the google maps as compared to any other metropolitan city in India which has very small data in OSM as compared to google maps.
+
+### Not achieved and Suggestion for the Improvement
+The New Delhi metro is big, I mean it has more than 160 stations and still building and it is divided in to 8 color lines. What I wanted to achive is to list all the stations along with there color lines. But the problem is there are very few(around 55) stations in the data, not every one is with their tag having the key name color, all of stations which have a tag with key color have there value yellow(mostly) and for rest of the tags the hexadecimal value of color is given like for red line the tag is someting like this.
+```
+<tag k="colour" v="ff0000"/>
+```
+The data could be more helpful if more metro station is given and if the tag for the color is given for each metro station.
+
+One more lagging in the data is that New Delhi is the hub for tourist attraction but there are not many tourist attractions in the given data, only 17 tourist attraction is been found. There should be more tourist attraction in the data.
+
