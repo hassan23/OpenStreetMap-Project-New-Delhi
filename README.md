@@ -378,32 +378,36 @@ It will be a inner join as left join list those hotels also which doesn't have a
 ```sql
 SELECT hotel.value HOTEL, website.value WEBSITE
 FROM (SELECT * FROM nodes_tags 
-    	WHERE id in (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='hotel')
+    	WHERE id in (SELECT DISTINCT(id) 
+			FROM nodes_tags 
+			WHERE key='tourism' AND value='hotel')
     	AND key='name') hotel
 	JOIN
 	(SELECT * FROM nodes_tags 
-    	WHERE id in (SELECT DISTINCT(id) FROM nodes_tags WHERE key='tourism' AND value='hotel')
+    	WHERE id in (SELECT DISTINCT(id) 
+			FROM nodes_tags
+			WHERE key='tourism' AND value='hotel')
     	AND key='website') website
 	ON 
 	hotel.id = website.id;
 ```
 #### Output:
 ```
-HOTEL                         WEBSITE
-The Ambassador                http://www.vivantabytaj.com/Ambassador-New-Delhi/Overview.html
-Claridges Hotel               http://www.claridges.com/index.asp
-Hare Krishna Guest House      http://www.hotelharekrishna.com/
-Maidens Hotel                        www.maidenshotel.com
-Ajanta                        http://www.ajantahotel.com
-Hotel Perfect                 http://www.hotelperfect.co.in/
-Hotel Durga International Dx  http://www.hoteldurgainternational.co.in
-Hotel Lal's Haveli            http://hotellalhaveli.com
-Hotel City Star                      www.hotel-citystar.com
-Amax Inn                      http://www.hotelamax.com/
-Bloomrooms                    http://bloomrooms.com/hotels-railwayst.php
-Smyle Inn                     http://www.smyleinn.com
-Shangri-La's Eros Hotel       http://www.shangri-la.com/newdelhi/erosshangrila/
-the spot                             www.hotelthespot.in
+HOTEL                        WEBSITE
+The Ambassador               http://www.vivantabytaj.com/Ambassador-New-Delhi/Overview.html
+Claridges Hotel              http://www.claridges.com/index.asp
+Hare Krishna Guest House     http://www.hotelharekrishna.com/
+Maidens Hotel                       www.maidenshotel.com
+Ajanta                       http://www.ajantahotel.com
+Hotel Perfect                http://www.hotelperfect.co.in/
+Hotel Durga International Dx http://www.hoteldurgainternational.co.in
+Hotel Lal's Haveli           http://hotellalhaveli.com
+Hotel City Star                     www.hotel-citystar.com
+Amax Inn                     http://www.hotelamax.com/
+Bloomrooms                   http://bloomrooms.com/hotels-railwayst.php
+Smyle Inn                    http://www.smyleinn.com
+Shangri-La's Eros Hotel      http://www.shangri-la.com/newdelhi/erosshangrila/
+the spot                            www.hotelthespot.in
 ```
 
 # Conclusion
