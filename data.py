@@ -13,7 +13,7 @@ import re
 import xml.etree.cElementTree as ET
 
 import cerberus
-from audit import update_name
+from audit import update_name,check_postcode
 import schema
 
 #OSM data file path 
@@ -66,8 +66,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                     node_tag["value"] = update_name(child.attrib["v"])
                 
                 elif child.attrib["k"] == 'addr:postcode':
-                    node_tag["value"] = check_postal_code(child.attrib["v"])
-                
+                    post = check_postcode(child.attrib["v"])
+                    if post is None: 
+                        continue
+                    else:
+                        node_tag["value"] = post
                 else:
                     node_tag["value"] = child.attrib["v"]
                 tags.append(node_tag)
@@ -102,7 +105,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                         way_tag["value"] = update_name(child.attrib["v"])
                     
                     elif child.attrib["k"] == 'addr:postcode':
-                        way_tag["value"] = check_postal_code(child.attrib["v"])
+                        post = check_postcode(child.attrib["v"])
+                        if post is None: 
+                            continue
+                        else:
+                            way_tag["value"] = post
                     else:
                         way_tag["value"] = child.attrib["v"]
                     

@@ -2004,7 +2004,6 @@ id,key,value,type
 2209522478,building,yes,regular
 2209529029,housename,moti,addr
 2209529029,housenumber,123,addr
-2209529029,postcode,null,addr
 2209529029,street,moti,addr
 2209529029,name,moti,regular
 2209529029,shop,bakery,regular

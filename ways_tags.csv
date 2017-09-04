@@ -8565,7 +8565,6 @@ id,key,value,type
 192086165,source,Bing,regular
 192702489,housename,School of Planning and Architecture,addr
 192702489,housenumber,"4, Block B, IP Estate",addr
-192702489,postcode,null,addr
 192702489,street,Indraprastha Road,addr
 192702489,building,yes,regular
 192702489,designation,University,regular
@@ -10577,7 +10576,6 @@ id,key,value,type
 267505729,highway,residential,regular
 268273213,city,New Delhi,addr
 268273213,housenumber,12,addr
-268273213,postcode,null,addr
 268273213,street,Hailey Road,addr
 268273213,building,yes,regular
 268273213,name,United States-India Educational Foundation,regular
@@ -11935,7 +11933,6 @@ id,key,value,type
 313088987,oneway,yes,regular
 313527500,city,Delhi,addr
 313527500,housenumber,"J/03, 68C",addr
-313527500,postcode,null,addr
 313527500,street,"Anarwali Masjid, Block J, New Delhi",addr
 313527500,building,yes,regular
 313527500,name,OMEX PHOTOGRAPHY,regular
